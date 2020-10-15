@@ -31,7 +31,7 @@ HEROKU_APP_NAME = Var.HEROKU_APP_NAME
 requirements_path = path.join(
     path.dirname(path.dirname(path.dirname(__file__))), 'requirements.txt')
 
-UPSTREAM_REPO_URL = "https://github.com/nastiflower/userbot-100101110"
+UPSTREAM_REPO_URL = "https://github.com/nastiflower/ale-userbot"
 
 async def gen_chlog(repo, diff):
     ch_log = ''
@@ -77,8 +77,7 @@ async def upstream(ups):
     except InvalidGitRepositoryError as error:
         if conf != "now":
             await ups.edit(
-                f"Unfortunately, the directory {error} does not seem to be a git repository.\
-            \nBut we can fix that by force updating the userbot using `.update now.`"
+                f"**🚫 Comando .update disattivato, utilizza .update now**"
             )
             return
         repo = Repo.init()
@@ -146,7 +145,7 @@ async def upstream(ups):
         heroku_applications = heroku.apps()
         if not HEROKU_APP_NAME:
             await ups.edit(
-                '**Invalid APP Name. Inserisci il nome del bot nella Var `HEROKU_APP_NAME.**'
+                '**Errore.**'
             )
             repo.__del__()
             return
@@ -156,11 +155,11 @@ async def upstream(ups):
                 break
         if heroku_app is None:
             await ups.edit(
-                f'{txt}\n**Credenziali heroku invalide per aggiornare Ubot.**'
+                f'{txt}\n**Errore.**'
             )
             repo.__del__()
             return
-        await ups.edit(f'**✅ Userbot aggiornato correttamente, riavvio in corso.**\n**⏰ Tempo stimato: 1 minuto.**'
+        await ups.edit(f'**✅ Userbot aggiornato correttamente, riavvio in corso.**\n**⏰ Tempo stimato: 5 minuti.**'
                        )
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
